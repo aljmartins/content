@@ -1,351 +1,908 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Infográfico — Descomplicando a Inteligência Artificial</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Descomplicando a Inteligência Artificial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-    :root {
-      --bg: #0b1020;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
-      --text: rgba(255, 226, 140, .95);
-      --muted: rgba(255, 226, 140, .78);
-      --muted2: rgba(255, 226, 140, .62);
-      --accent: #ffd35a;
-      --accent2: #8fe3ff;
-      --border: rgba(255,255,255,.12);
-      --shadow: 0 10px 25px rgba(0,0,0,.35);
-      --r: 18px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      font-size: 17px;
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1200px 600px at 20% 0%, rgba(98,212,255,.18), transparent 60%),
-        radial-gradient(900px 500px at 100% 10%, rgba(255,211,90,.14), transparent 60%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-    }
-    a { color: var(--accent2); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 50px; }
-    header { display: grid; grid-template-columns: 360px 1fr; gap: 18px; align-items: stretch; }
-    @media (max-width: 900px) { header { grid-template-columns: 1fr; } }
-    .card {
-      background: linear-gradient(180deg, var(--card2), var(--card));
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .hero { padding: 18px 18px 16px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 10px; border: 1px solid var(--border);
-      border-radius: 999px; background: rgba(0,0,0,.25);
-      font-size: 13px; color: var(--muted); margin-bottom: 10px;
-    }
-    .badge svg { width: 14px; height: 14px; }
-    h1 { margin: 0 0 6px; font-size: 38px; line-height: 1.12; letter-spacing: -0.6px; }
-    .subtitle { margin: 0 0 14px; color: var(--muted); font-size: 16.5px; max-width: 62ch; }
-    .meta-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
-    @media (max-width: 900px) { .meta-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    .pill { padding: 10px 10px 9px; border-radius: 14px; border: 1px solid var(--border); background: rgba(0,0,0,.18); min-height: 54px; }
-    .pill .k { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted2); margin-bottom: 3px; }
-    .pill .v { font-weight: 700; font-size: 14px; color: var(--text); }
-    .pill svg { width: 16px; height: 16px; opacity: .95; }
-    .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 9px;
-      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(0,0,0,.20); color: var(--text); font-weight: 650; font-size: 14px;
-      cursor: pointer; user-select: none;
-    }
-    .btn:hover { background: rgba(0,0,0,.30); }
-    .btn svg { width: 16px; height: 16px; }
-    .btn.primary {
-      background: linear-gradient(180deg, rgba(255,211,90,.22), rgba(255,211,90,.08));
-      border-color: rgba(255,211,90,.35);
-    }
-    .btn.primary:hover {
-      background: linear-gradient(180deg, rgba(255,211,90,.28), rgba(255,211,90,.10));
-    }
-    .cover { display: grid; grid-template-rows: auto 1fr; min-height: 420px; }
-    .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .cover .caption { padding: 12px 14px 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12.5px; }
-    .section { margin-top: 18px; }
-    .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 18px 0 10px; }
-    .section-title h2 { margin: 0; font-size: 19.5px; letter-spacing: -0.3px; }
-    .section-title .hint { color: var(--muted2); font-size: 12px; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
-    .authors { grid-column: 1 / -1; }
-    .authors-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    @media (max-width: 900px) { .authors-grid { grid-template-columns: 1fr; } }
-    .author { padding: 14px 14px 12px; }
-    .author .name { font-weight: 800; margin: 0 0 6px; letter-spacing: -0.2px; }
-    .author .bio { margin: 0; color: var(--muted); font-size: 14.5px; }
-    .topic-map { grid-column: 1 / -1; padding: 14px; }
-    .parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    @media (max-width: 900px) { .parts { grid-template-columns: 1fr; } }
-    .part { padding: 14px 14px 12px; position: relative; overflow: hidden; }
-    .part:before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px 240px at 15% 0%, rgba(98,212,255,.10), transparent 55%); pointer-events: none; }
-    .part h3 { margin: 0 0 8px; font-size: 15px; letter-spacing: -0.2px; }
-    .part ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
-    .part li { margin: 6px 0; }
-    .highlights { grid-column: 1 / 8; padding: 14px; }
-    .audience { grid-column: 8 / -1; padding: 14px; }
-    @media (max-width: 900px) { .highlights { grid-column: 1 / -1; } .audience { grid-column: 1 / -1; } }
-    .list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
-    .list li { margin: 6px 0; }
-    .aud-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .tag { padding: 7px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(0,0,0,.18); color: var(--muted); font-size: 13.5px; }
-    footer { margin-top: 18px; padding: 14px 14px 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted2); font-size: 12px; }
-    .small { color: var(--muted2); font-size: 12px; }
-    @media print {
-      body { background: #fff; color: #000; }
-      .card { box-shadow: none; }
-      a { color: #000; text-decoration: underline; }
-      .btn { display: none; }
-      .badge { background: transparent; }
-    }
-  
+  :root {
+    --bg: #07090f;
+    --surface: #0e1220;
+    --surface2: #141828;
+    --border: rgba(255,255,255,.09);
+    --border2: rgba(255,255,255,.15);
+    --gold: #f5c842;
+    --gold2: #fce07a;
+    --cyan: #5de4f4;
+    --text: #f0eadb;
+    --muted: rgba(240,234,219,.65);
+    --muted2: rgba(240,234,219,.4);
+    --r: 16px;
+    --r2: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 15px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
 
-/* --- Editorial authors layout --- */
-.author {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.author-photo {
-  width: 88px;
-  height: 88px;
-  flex: 0 0 88px;
-  object-fit: cover;
-  border-radius: 14px; /* editorial > circle */
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,.18);
-}
-.author-text {
-  flex: 1;
-  min-width: 0;
-}
-.author .name { margin: 0 0 6px; }
-@media (max-width: 520px) {
-  .author-photo { width: 72px; height: 72px; flex-basis: 72px; }
-}
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: .6;
+  }
+
+  /* Animated gradient orbs */
+  .orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .18;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 600px; height: 600px; background: #f5c842; top: -200px; left: -100px; animation-delay: 0s; }
+  .orb2 { width: 500px; height: 500px; background: #5de4f4; top: 30%; right: -150px; animation-delay: -6s; }
+  .orb3 { width: 400px; height: 400px; background: #8b5cf6; bottom: 10%; left: 20%; animation-delay: -12s; }
+  @keyframes drift {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(40px, 30px) scale(1.08); }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 780px) {
+    .header { grid-template-columns: 1fr; }
+  }
+
+  .cover-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-card img {
+    width: 100%; flex: 1;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-caption {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--muted2);
+    border-top: 1px solid var(--border);
+  }
+
+  .hero-card {
+    background: linear-gradient(135deg, #0e1220 0%, #111829 100%);
+    border: 1px solid var(--border2);
+    border-radius: var(--r);
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(245,200,66,.3);
+    background: rgba(245,200,66,.07);
+    font-size: 12px;
+    color: var(--gold2);
+    width: fit-content;
+    margin-bottom: 16px;
+    letter-spacing: .03em;
+  }
+  .badge svg { width: 13px; height: 13px; }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 22px;
+    max-width: 52ch;
+  }
+
+  .meta-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 400px) {
+    .meta-pills { grid-template-columns: 1fr; }
+  }
+  .pill {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,.25);
+  }
+  .pill .pk { font-size: 11px; color: var(--muted2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+  .pill .pv { font-size: 14px; font-weight: 700; color: var(--text); }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 10px;
+    font-size: 13.5px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(245,200,66,.25), rgba(245,200,66,.1));
+    border: 1px solid rgba(245,200,66,.4);
+    color: var(--gold2);
+  }
+  .btn-primary:hover { background: linear-gradient(135deg, rgba(245,200,66,.35), rgba(245,200,66,.15)); }
+  .btn-ghost {
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.09); }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* ─── SECTION HEADER ─── */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 32px 0 16px;
+  }
+  .section-head h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+  }
+  .section-head .hint {
+    font-size: 12px;
+    color: var(--muted2);
+  }
+
+  /* ─── AUTHORS ─── */
+  .authors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .authors-grid { grid-template-columns: 1fr; }
+  }
+
+  .author-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: border-color .2s;
+  }
+  .author-card:hover { border-color: rgba(245,200,66,.25); }
+  .author-photo {
+    width: 76px; height: 76px;
+    flex: 0 0 76px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .author-name {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: var(--text);
+  }
+  .author-bio {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 480px) {
+    .author-card { flex-direction: column; }
+    .author-photo { width: 60px; height: 60px; flex-basis: 60px; }
+  }
+
+  /* ─── TOPIC MAP ─── */
+  .parts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .parts-grid { grid-template-columns: 1fr; }
+  }
+
+  .part-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .part-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px 200px at 10% 0%, rgba(93,228,244,.06), transparent 60%);
+    pointer-events: none;
+  }
+  .part-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+  .part-card h3 {
+    font-size: 14.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .part-card ul {
+    padding-left: 16px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .part-card li { margin: 5px 0; }
+
+  /* ─── PESSOAS ─── */
+  .people-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .person-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r2);
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color .2s, background .2s;
+  }
+  .person-card:hover {
+    border-color: rgba(245,200,66,.2);
+    background: #1a1f32;
+  }
+  .person-icon {
+    width: 38px; height: 38px;
+    flex: 0 0 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(245,200,66,.2), rgba(245,200,66,.05));
+    border: 1px solid rgba(245,200,66,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+  }
+  .person-name {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--gold2);
+    margin-bottom: 3px;
+  }
+  .person-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  /* ─── PARADIGMS ─── */
+  .paradigms-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+  }
+  .paradigms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .paradigm-card {
+    border-radius: var(--r2);
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .paradigm-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--pcolor, rgba(255,255,255,.2));
+  }
+  .paradigm-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--pcolor, var(--border));
+    border-radius: var(--r2) var(--r2) 0 0;
+  }
+  .paradigm-icon {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .paradigm-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .paradigm-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .chip {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    background: var(--pbg, rgba(255,255,255,.07));
+    color: var(--ptext, var(--muted));
+    border: 1px solid var(--pborder, var(--border));
+  }
+  .paradigm-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ─── BOTTOM GRID ─── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  @media (max-width: 640px) {
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+
+  .highlights-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+  }
+  .hl-list {
+    list-style: none;
+    margin-top: 12px;
+  }
+  .hl-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .hl-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .hl-icon {
+    width: 28px; height: 28px;
+    flex: 0 0 28px;
+    border-radius: 8px;
+    background: rgba(93,228,244,.1);
+    border: 1px solid rgba(93,228,244,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  .audience-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+  }
+  .aud-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .aud-tag {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border2);
+    background: rgba(255,255,255,.04);
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .aud-note {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(245,200,66,.05);
+    border: 1px solid rgba(245,200,66,.1);
+  }
+
+  /* ─── FOOTER ─── */
+  .footer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 16px 20px;
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .footer-ref { font-size: 13px; color: var(--muted); }
+  .footer-ref strong { color: var(--text); }
+  .footer-note { font-size: 11.5px; color: var(--muted2); }
+
+  /* ─── CARD CONTAINER (section wrapper) ─── */
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+  }
+
+  /* Fade-in animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .wrap > * { animation: fadeUp .5s ease both; }
+  .wrap > *:nth-child(1) { animation-delay: .05s; }
+  .wrap > *:nth-child(2) { animation-delay: .10s; }
+  .wrap > *:nth-child(3) { animation-delay: .15s; }
+  .wrap > *:nth-child(4) { animation-delay: .20s; }
+  .wrap > *:nth-child(5) { animation-delay: .25s; }
+  .wrap > *:nth-child(6) { animation-delay: .30s; }
+  .wrap > *:nth-child(7) { animation-delay: .35s; }
+  .wrap > *:nth-child(8) { animation-delay: .40s; }
 </style>
 </head>
 <body>
+<div class="orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
 <div class="wrap">
-<header>
-<div class="card cover">
-<img alt="Capa do livro Descomplicando a Inteligência Artificial" src="assets/capa.png"/>
-<div class="caption">Capa (pré-visualização). Quer a arte completa? Clique em “Capa + contracapa”.</div>
-</div>
-<div class="card hero">
-<div class="badge"><svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
-<path d="M12 2l1.4 5.1L18 5l-2.9 4.4L20 12l-4.9 2.6L18 19l-4.6-2.1L12 22l-1.4-5.1L6 19l2.9-4.4L4 12l4.9-2.6L6 5l4.6 2.1L12 2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path>
-</svg> Livro • Editora UDESC (Florianópolis) • 2026</div>
-<h1>Descomplicando a Inteligência Artificial</h1>
-<p class="subtitle">Explorando os fundamentos da IA de forma acessível — para profissionais, estudantes e curiosos por tecnologia</p>
-<div class="meta-grid">
-<div class="pill">
-<div class="k">
-<svg fill="none" viewbox="0 0 24 24"><path d="M7 4h10a2 2 0 0 1 2 2v13a1 1 0 0 1-1.6.8L12 16l-5.4 3.8A1 1 0 0 1 5 19V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6"></path></svg>
-            Editora
-          </div>
-<div class="v">UDESC</div>
-</div>
-<div class="pill">
-<div class="k">
-<svg fill="none" viewbox="0 0 24 24"><path d="M8 2h8v4H8V2zM6 8h12v14H6V8z" stroke="currentColor" stroke-width="1.6"></path></svg>
-            Páginas
-          </div>
-<div class="v">236</div>
-</div>
-<div class="pill">
-<div class="k">
-<svg fill="none" viewbox="0 0 24 24"><path d="M7 7h10M7 12h10M7 17h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
-            ISBN
-          </div>
-<div class="v">978-85-8302-293-0</div>
-</div>
-<div class="pill">
-<div class="k">
-<svg fill="none" viewbox="0 0 24 24"><path d="M4 6h16v12H4V6zM8 10h8M8 14h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
-            ISBN-e
-          </div>
-<div class="v">978-85-8302-292-3</div>
-</div>
-</div>
-<div class="cta">
-<a class="btn primary" href="https://repositorio.udesc.br/entities/publication/8c114bb3-7e83-426b-9efd-d454db0c90ee" rel="noopener" target="_blank">
-<svg fill="none" viewbox="0 0 24 24"><path d="M12 3v10m0 0l4-4m-4 4L8 9M5 17h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="cover-card">
+      <img alt="Capa do livro Descomplicando a Inteligência Artificial" src="assets/capa.png"/>
+      <div class="cover-caption">Capa pré-visualização · <a href="assets/capa_contracapa.png" target="_blank" rel="noopener">ver capa completa →</a></div>
+    </div>
+    <div class="hero-card">
+      <div class="badge">
+        <svg fill="none" viewBox="0 0 24 24"><path d="M12 2l1.4 5.1L18 5l-2.9 4.4L20 12l-4.9 2.6L18 19l-4.6-2.1L12 22l-1.4-5.1L6 19l2.9-4.4L4 12l4.9-2.6L6 5l4.6 2.1L12 2z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"/></svg>
+        Livro · Editora UDESC · Florianópolis · 2026
+      </div>
+      <h1>Descomplicando a <em>Inteligência Artificial</em></h1>
+      <p class="subtitle">Fundamentos de IA de forma acessível — para profissionais, estudantes e curiosos por tecnologia</p>
+      <div class="meta-pills">
+        <div class="pill">
+          <div class="pk">Editora</div>
+          <div class="pv">UDESC</div>
+        </div>
+        <div class="pill">
+          <div class="pk">Ano</div>
+          <div class="pv">2026</div>
+        </div>
+        <div class="pill">
+          <div class="pk">Páginas</div>
+          <div class="pv">236 p.</div>
+        </div>
+        <div class="pill">
+          <div class="pk">Autores</div>
+          <div class="pv">4 professores</div>
+        </div>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="#" target="_blank" rel="noopener">
+          <svg fill="none" viewBox="0 0 24 24"><path d="M4 4h16v16H4V4zm4 4h8m-8 4h6" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"/></svg>
           Página do livro (download)
         </a>
-<a class="btn" href="assets/capa_contracapa.png" rel="noopener" target="_blank">
-<svg fill="none" viewbox="0 0 24 24"><path d="M4 6h16v12H4V6zM8 10h8" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+        <a class="btn btn-ghost" href="assets/capa_contracapa.png" target="_blank" rel="noopener">
+          <svg fill="none" viewBox="0 0 24 24"><path d="M4 6h16v12H4V6zM8 10h8" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"/></svg>
           Capa + contracapa
         </a>
-</div>
-<p class="small" style="margin-top:10px;">
-        O clássico que funciona: conceitos bem definidos, exemplos práticos e uma trilha de aprendizado em 4 partes.
-      </p>
-</div>
-</header>
-<div class="section grid">
-<div class="card authors">
-<div class="section-title" style="padding: 14px 14px 0;">
-<h2>Autores</h2>
-<div class="hint">quem escreveu, sem mistério</div>
-</div>
-<div class="authors-grid" style="padding: 0 14px 14px;">
-<div class="card author"><img alt="Alejandro Martins Rodriguez" class="author-photo" src="assets/alejandro.png"/><div class="author-text"><div class="name">Alejandro Martins Rodriguez</div><p class="bio">Professor associado no Centro de Engenharias da UFPel. Doutor em Engenharia de Produção, com experiência em IA e finanças, com sólida formação internacional e ampla atuação acadêmica e técnica.</p></div></div>
-<div class="card author"><img alt="Jordan Paulesky Juliani" class="author-photo" src="assets/juliani.png"/><div class="author-text"><div class="name">Jordan Paulesky Juliani</div><p class="bio">Professor na UDESC e na University of Wisconsin–Stevens Point (EUA). Doutor em Engenharia e Gestão do Conhecimento, pesquisa IA e análise de dados aplicados à Administração.</p></div></div>
-<div class="card author"><img alt="Nilson Ribeiro Modro" class="author-photo" src="assets/modro.png"/><div class="author-text"><div class="name">Nilson Ribeiro Modro</div><p class="bio">Professor associado no CEPLAN/UDESC. Doutor em Engenharia de Produção, atua em computação, geoprocessamento, qualidade e sistemas inteligentes, aproximando teoria e solução prática.</p></div></div>
-<div class="card author"><img alt="Tiago Luiz Schmitz" class="author-photo" src="assets/tiago.png"/><div class="author-text"><div class="name">Tiago Luiz Schmitz</div><p class="bio">Professor no CEAD/UDESC. Doutor em Engenharia de Automação e Sistemas, dedica-se ao desenvolvimento de algoritmos para coordenação de agentes e aplicações inovadoras em sistemas multiagentes.</p></div></div>
-</div>
-</div>
-<div class="card topic-map">
-<div class="section-title">
-<h2>Mapa do conteúdo</h2>
-<div class="hint">do básico ao futuro (na ordem certa)</div>
-</div>
-<div class="parts">
-<div class="card part">
-<h3>Parte 01 — Conceitos, paradigmas e aplicações</h3>
-<ul><li>Onde usamos IA hoje?</li>
-<li>O que é IA? como se desenvolveu?</li>
-<li>Paradigmas e técnicas (SE, RBC, redes neurais, genéticos, lógica difusa, bayes, agentes)</li></ul>
-</div>
-<div class="card part">
-<h3>Parte 02 — IA e solução de problemas</h3>
-<ul><li>Espaço de estados</li>
-<li>Busca desinformada, largura, profundidade, gulosa e A*</li>
-<li>Referências da parte</li></ul>
-</div>
-<div class="card part">
-<h3>Parte 03 — Os problemas que a IA resolve</h3>
-<ul><li>Recomendação</li>
-<li>Diagnóstico (sistemas especialistas)</li>
-<li>Reconhecimento de padrões (redes neurais)</li>
-<li>Otimização (algoritmos genéticos)</li>
-<li>Tomada de decisão (agentes)</li>
-<li>Predição (abordagem estatística)</li></ul>
-</div>
-<div class="card part">
-<h3>Parte 04 — O futuro da IA</h3>
-<ul><li>Níveis de IA e IA como tecnologia infraestrutural</li>
-<li>IA e Indústria 4.0; exemplos (manufatura, saúde, automação de processos, manutenção preditiva, robótica, design)</li>
-<li>Deep Learning, IA generativa e LLMs</li>
-<li>Engenharia de prompt, APIs/plataformas, agentes e economia na era da IA</li></ul>
-</div>
-</div>
-</div>
-<div class="card topic-map" style="padding: 14px;">
-<div class="section-title">
-<h2>Pessoas, métodos e técnicas</h2>
-<div class="hint">quem fez + como faz</div>
-</div>
-<div class="parts" style="grid-template-columns: 1fr 1fr;">
-<div class="card part">
-<h3>Pessoas (pesquisadores e autores)</h3>
-<ul>
-<li><strong>Alan Turing:</strong> Introduziu o Teste de Turing (1950) para avaliar a inteligência de máquinas.</li>
-<li><strong>John McCarthy:</strong> Cunhou o termo “Inteligência Artificial” (1956) e organizou o workshop de Dartmouth.</li>
-<li><strong>Marvin Minsky:</strong> Cofundador da área e autor de definições clássicas de IA.</li>
-<li><strong>Geoffrey Hinton:</strong> Peça-chave na popularização do Deep Learning e redes neurais profundas.</li>
-<li><strong>Herbert A. Simon:</strong> Definiu processos de comportamento inteligente e participou do programa GPS.</li>
-<li><strong>Arthur Samuel:</strong> Pioneiro em Machine Learning e programas de jogos com autoaprendizado.</li>
-<li><strong>Yann LeCun &amp; Yoshua Bengio:</strong> Com Hinton, frequentemente citados pelos avanços em redes neurais profundas.</li>
-<li><strong>John Holland:</strong> Apresentou os Algoritmos Genéticos (1975), inspirados na evolução natural.</li>
-<li><strong>Judea Pearl:</strong> Referência em raciocínio probabilístico e redes bayesianas.</li>
-</ul>
-</div>
-<div class="card part">
-<h3>Paradigmas (visão rápida)</h3>
-<ul>
-<li><strong>6 paradigmas principais</strong> (simbólico, conexionista, evolutivo, estatístico/probabilístico, swarm e híbrido)</li>
-<li><strong>Busca</strong> (largura, profundidade, gulosa, A*)</li>
-<li><strong>PLN</strong> (Transformer → base de modelos como GPT)</li>
-</ul>
-</div>
-</div>
-<div class="parts" style="margin-top: 12px;">
-<div class="card part">
-<h3>Paradigma Simbólico (IA clássica)</h3>
-<ul><li>Sistemas Especialistas (SE): regras SE–ENTÃO</li>
-<li>Raciocínio Baseado em Casos (RBC): usa casos passados</li>
-<li>Raciocínio dedutivo e abdutivo</li></ul>
-</div>
-<div class="card part">
-<h3>Paradigma Conexionista</h3>
-<ul><li>Redes Neurais Artificiais (RNA)</li>
-<li>Deep Learning (múltiplas camadas)</li>
-<li>Machine Learning (aprender sem programar regras explícitas)</li></ul>
-</div>
-<div class="card part">
-<h3>Paradigma Evolutivo</h3>
-<ul><li>Algoritmos Genéticos (AG): seleção, cruzamento e mutação</li></ul>
-</div>
-<div class="card part">
-<h3>Paradigma Estatístico / Probabilístico</h3>
-<ul><li>Redes Bayesianas (Teorema de Bayes)</li>
-<li>Lógica Difusa (Fuzzy): valores entre 0 e 1</li>
-<li>Naive Bayes (CNB): predição e classificação</li></ul>
-</div>
-<div class="card part">
-<h3>Paradigma Swarm (Enxame)</h3>
-<ul><li>Agentes inteligentes: percebem e atuam para atingir objetivos</li></ul>
-</div>
-<div class="card part">
-<h3>Paradigma Híbrido</h3>
-<ul><li>Sistemas híbridos (ex.: neuro‑simbólico) combinando técnicas</li></ul>
-</div>
-<div class="card part">
-<h3>Busca e PLN</h3>
-<ul><li>Busca em largura, profundidade, gulosa (greedy) e A*</li>
-<li>PLN/NLP: arquitetura Transformer (base de modelos como GPT)</li></ul>
-</div>
-</div>
-</div>
-<div class="card highlights">
-<div class="section-title">
-<h2>Destaques</h2>
-<div class="hint">o que o leitor leva pra casa</div>
-</div>
-<ul class="list">
-<li>Fundamentos e evolução da IA (de forma acessível)</li>
-<li>Paradigmas: simbólico, conexionista, evolutivo, estatístico, swarm e híbrido</li>
-<li>Problemas clássicos: busca, recomendação, diagnóstico, reconhecimento de padrões, otimização, tomada de decisão e predição</li>
-<li>Deep Learning, IA generativa, LLMs, engenharia de prompt e agentes</li>
-</ul>
-</div>
-<div class="card audience">
-<div class="section-title">
-<h2>Para quem é</h2>
-<div class="hint">público-alvo</div>
-</div>
-<div class="aud-tags">
-<span class="tag">Estudantes</span>
-<span class="tag">Gestores</span>
-<span class="tag">Profissionais</span>
-<span class="tag">Curiosos por tecnologia</span>
-</div>
-<p class="small" style="margin-top:10px;">Leitura direta, sem “modinha”: primeiro entende, depois aplica.</p>
-</div>
-<div class="card" style="grid-column: 1 / -1;">
-<footer>
-<div><strong>Referência rápida:</strong> Descomplicando a Inteligência Artificial. Editora UDESC (Florianópolis), 2026. 236 p.</div>
-<div><span class="small">Infográfico em HTML (imagens externas em <code>assets/</code>).</span></div>
-</footer>
-</div>
-</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- AUTHORS -->
+  <div>
+    <div class="section-head">
+      <h2>Autores</h2>
+      <span class="hint">quem escreveu, sem mistério</span>
+    </div>
+    <div class="authors-grid">
+      <div class="author-card">
+        <img alt="Alejandro Martins Rodriguez" class="author-photo" src="assets/alejandro.png"/>
+        <div>
+          <div class="author-name">Alejandro Martins Rodriguez</div>
+          <p class="author-bio">Professor associado no Centro de Engenharias da UFPel. Doutor em Engenharia de Produção, com experiência em IA e finanças, sólida formação internacional e ampla atuação acadêmica e técnica.</p>
+        </div>
+      </div>
+      <div class="author-card">
+        <img alt="Jordan Paulesky Juliani" class="author-photo" src="assets/juliani.png"/>
+        <div>
+          <div class="author-name">Jordan Paulesky Juliani</div>
+          <p class="author-bio">Professor na UDESC e na University of Wisconsin–Stevens Point (EUA). Doutor em Engenharia e Gestão do Conhecimento, pesquisa IA e análise de dados aplicados à Administração.</p>
+        </div>
+      </div>
+      <div class="author-card">
+        <img alt="Nilson Ribeiro Modro" class="author-photo" src="assets/modro.png"/>
+        <div>
+          <div class="author-name">Nilson Ribeiro Modro</div>
+          <p class="author-bio">Professor associado no CEPLAN/UDESC. Doutor em Engenharia de Produção, atua em computação, geoprocessamento, qualidade e sistemas inteligentes.</p>
+        </div>
+      </div>
+      <div class="author-card">
+        <img alt="Tiago Luiz Schmitz" class="author-photo" src="assets/tiago.png"/>
+        <div>
+          <div class="author-name">Tiago Luiz Schmitz</div>
+          <p class="author-bio">Professor no CEAD/UDESC. Doutor em Engenharia de Automação e Sistemas, dedica-se ao desenvolvimento de algoritmos para coordenação de agentes e sistemas multiagentes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC MAP -->
+  <div>
+    <div class="section-head">
+      <h2>Mapa do conteúdo</h2>
+      <span class="hint">do básico ao futuro (na ordem certa)</span>
+    </div>
+    <div class="parts-grid">
+      <div class="part-card">
+        <div class="part-num">Parte 01</div>
+        <h3>Conceitos, paradigmas e aplicações</h3>
+        <ul>
+          <li>Onde usamos IA hoje?</li>
+          <li>O que é IA? Como se desenvolveu?</li>
+          <li>Paradigmas e técnicas (SE, RBC, redes neurais, genéticos, lógica difusa, bayes, agentes)</li>
+        </ul>
+      </div>
+      <div class="part-card">
+        <div class="part-num">Parte 02</div>
+        <h3>IA e solução de problemas</h3>
+        <ul>
+          <li>Espaço de estados</li>
+          <li>Busca desinformada, largura, profundidade, gulosa e A*</li>
+          <li>Referências da parte</li>
+        </ul>
+      </div>
+      <div class="part-card">
+        <div class="part-num">Parte 03</div>
+        <h3>Os problemas que a IA resolve</h3>
+        <ul>
+          <li>Recomendação</li>
+          <li>Diagnóstico (sistemas especialistas)</li>
+          <li>Reconhecimento de padrões (redes neurais)</li>
+          <li>Otimização (algoritmos genéticos)</li>
+          <li>Tomada de decisão (agentes)</li>
+          <li>Predição (abordagem estatística)</li>
+        </ul>
+      </div>
+      <div class="part-card">
+        <div class="part-num">Parte 04</div>
+        <h3>O futuro da IA</h3>
+        <ul>
+          <li>Níveis de IA e IA como tecnologia infraestrutural</li>
+          <li>IA e Indústria 4.0 (manufatura, saúde, robótica, design)</li>
+          <li>Deep Learning, IA generativa e LLMs</li>
+          <li>Engenharia de prompt, APIs, agentes e economia na era da IA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESSOAS CITADAS -->
+  <div>
+    <div class="section-head">
+      <h2>Pesquisadores & autores citados</h2>
+      <span class="hint">os gigantes nos ombros dos quais a IA se apoia</span>
+    </div>
+    <div class="section-card" style="padding: 20px;">
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="person-icon">🤖</div>
+          <div>
+            <div class="person-name">Alan Turing</div>
+            <div class="person-desc">Introduziu o Teste de Turing (1950) para avaliar a inteligência de máquinas.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🏛️</div>
+          <div>
+            <div class="person-name">John McCarthy</div>
+            <div class="person-desc">Cunhou o termo "Inteligência Artificial" (1956) e organizou o workshop de Dartmouth.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🧠</div>
+          <div>
+            <div class="person-name">Marvin Minsky</div>
+            <div class="person-desc">Cofundador da área e autor de definições clássicas de IA.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🔬</div>
+          <div>
+            <div class="person-name">Geoffrey Hinton</div>
+            <div class="person-desc">Peça-chave na popularização do Deep Learning e redes neurais profundas.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">⚙️</div>
+          <div>
+            <div class="person-name">Herbert A. Simon</div>
+            <div class="person-desc">Definiu processos de comportamento inteligente e participou do programa GPS.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🎮</div>
+          <div>
+            <div class="person-name">Arthur Samuel</div>
+            <div class="person-desc">Pioneiro em Machine Learning e programas de jogos com autoaprendizado.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">📊</div>
+          <div>
+            <div class="person-name">Yann LeCun & Yoshua Bengio</div>
+            <div class="person-desc">Com Hinton, referências centrais pelos avanços em redes neurais profundas.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🧬</div>
+          <div>
+            <div class="person-name">John Holland</div>
+            <div class="person-desc">Apresentou os Algoritmos Genéticos (1975), inspirados na evolução natural.</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="person-icon">🎲</div>
+          <div>
+            <div class="person-name">Judea Pearl</div>
+            <div class="person-desc">Referência em raciocínio probabilístico e redes bayesianas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARADIGMAS -->
+  <div>
+    <div class="section-head">
+      <h2>Paradigmas da IA</h2>
+      <span class="hint">visão rápida — 6 abordagens + busca & PLN</span>
+    </div>
+    <div class="paradigms-grid">
+
+      <div class="paradigm-card" style="--pcolor:#f5c842; --pbg:rgba(245,200,66,.12); --ptext:#f5c842; --pborder:rgba(245,200,66,.25);">
+        <div class="paradigm-icon">🏛️</div>
+        <div class="paradigm-name">Simbólico</div>
+        <div class="paradigm-chips">
+          <span class="chip">SE–ENTÃO</span>
+          <span class="chip">Sistemas Especialistas</span>
+          <span class="chip">RBC</span>
+        </div>
+        <div class="paradigm-desc">IA clássica baseada em regras explícitas e raciocínio dedutivo/abdutivo.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#5de4f4; --pbg:rgba(93,228,244,.1); --ptext:#5de4f4; --pborder:rgba(93,228,244,.22);">
+        <div class="paradigm-icon">🧠</div>
+        <div class="paradigm-name">Conexionista</div>
+        <div class="paradigm-chips">
+          <span class="chip">Redes Neurais</span>
+          <span class="chip">Deep Learning</span>
+          <span class="chip">Machine Learning</span>
+        </div>
+        <div class="paradigm-desc">Aprendizado por camadas de neurônios artificiais, sem regras explícitas.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#4ade80; --pbg:rgba(74,222,128,.1); --ptext:#4ade80; --pborder:rgba(74,222,128,.22);">
+        <div class="paradigm-icon">🧬</div>
+        <div class="paradigm-name">Evolutivo</div>
+        <div class="paradigm-chips">
+          <span class="chip">Algoritmos Genéticos</span>
+          <span class="chip">Seleção</span>
+          <span class="chip">Mutação</span>
+        </div>
+        <div class="paradigm-desc">Inspirado na evolução natural: seleção, cruzamento e mutação de soluções.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#f97316; --pbg:rgba(249,115,22,.1); --ptext:#f97316; --pborder:rgba(249,115,22,.22);">
+        <div class="paradigm-icon">📊</div>
+        <div class="paradigm-name">Estatístico / Probabilístico</div>
+        <div class="paradigm-chips">
+          <span class="chip">Redes Bayesianas</span>
+          <span class="chip">Lógica Difusa</span>
+          <span class="chip">Naive Bayes</span>
+        </div>
+        <div class="paradigm-desc">Raciocínio com incerteza, valores entre 0 e 1 e probabilidades condicionais.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#a78bfa; --pbg:rgba(167,139,250,.1); --ptext:#a78bfa; --pborder:rgba(167,139,250,.22);">
+        <div class="paradigm-icon">🐝</div>
+        <div class="paradigm-name">Swarm (Enxame)</div>
+        <div class="paradigm-chips">
+          <span class="chip">Agentes Inteligentes</span>
+          <span class="chip">Comportamento Coletivo</span>
+        </div>
+        <div class="paradigm-desc">Agentes que percebem o ambiente e agem colaborativamente para atingir objetivos.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#fb7185; --pbg:rgba(251,113,133,.1); --ptext:#fb7185; --pborder:rgba(251,113,133,.22);">
+        <div class="paradigm-icon">🔀</div>
+        <div class="paradigm-name">Híbrido</div>
+        <div class="paradigm-chips">
+          <span class="chip">Neuro-simbólico</span>
+          <span class="chip">Multi-técnica</span>
+        </div>
+        <div class="paradigm-desc">Combinação de paradigmas para aproveitar as vantagens de cada abordagem.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#38bdf8; --pbg:rgba(56,189,248,.1); --ptext:#38bdf8; --pborder:rgba(56,189,248,.22);">
+        <div class="paradigm-icon">🔭</div>
+        <div class="paradigm-name">Busca</div>
+        <div class="paradigm-chips">
+          <span class="chip">Largura / Profundidade</span>
+          <span class="chip">Gulosa</span>
+          <span class="chip">A*</span>
+        </div>
+        <div class="paradigm-desc">Estratégias para explorar espaços de estados e encontrar soluções ótimas.</div>
+      </div>
+
+      <div class="paradigm-card" style="--pcolor:#e879f9; --pbg:rgba(232,121,249,.1); --ptext:#e879f9; --pborder:rgba(232,121,249,.22);">
+        <div class="paradigm-icon">💬</div>
+        <div class="paradigm-name">PLN / NLP</div>
+        <div class="paradigm-chips">
+          <span class="chip">Transformer</span>
+          <span class="chip">GPT</span>
+          <span class="chip">LLMs</span>
+        </div>
+        <div class="paradigm-desc">Arquitetura Transformer, base dos modelos de linguagem de grande escala.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM GRID -->
+  <div class="bottom-grid">
+    <div class="highlights-card">
+      <div class="section-head" style="margin: 0 0 4px;">
+        <h2>Destaques</h2>
+        <span class="hint">o que o leitor leva para casa</span>
+      </div>
+      <ul class="hl-list">
+        <li>
+          <div class="hl-icon">📖</div>
+          <span>Fundamentos e evolução da IA apresentados de forma acessível e progressiva</span>
+        </li>
+        <li>
+          <div class="hl-icon">🧩</div>
+          <span>6 paradigmas: simbólico, conexionista, evolutivo, estatístico, swarm e híbrido</span>
+        </li>
+        <li>
+          <div class="hl-icon">🎯</div>
+          <span>Problemas clássicos: busca, recomendação, diagnóstico, reconhecimento de padrões, otimização e predição</span>
+        </li>
+        <li>
+          <div class="hl-icon">🚀</div>
+          <span>Deep Learning, IA generativa, LLMs, engenharia de prompt e agentes autônomos</span>
+        </li>
+      </ul>
+    </div>
+    <div class="audience-card">
+      <div class="section-head" style="margin: 0 0 4px;">
+        <h2>Para quem é</h2>
+        <span class="hint">público-alvo</span>
+      </div>
+      <div class="aud-tags">
+        <span class="aud-tag">🎓 Estudantes</span>
+        <span class="aud-tag">📋 Gestores</span>
+        <span class="aud-tag">💼 Profissionais</span>
+        <span class="aud-tag">🔭 Curiosos por tecnologia</span>
+      </div>
+      <div class="aud-note">
+        Leitura direta, sem "modinha": primeiro entende, depois aplica.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-card">
+    <div class="footer-ref"><strong>Referência rápida:</strong> Descomplicando a Inteligência Artificial. Editora UDESC (Florianópolis), 2026. 236 p.</div>
+    <div class="footer-note">Infográfico HTML · imagens em <code>assets/</code></div>
+  </div>
+
 </div>
 </body>
 </html>
